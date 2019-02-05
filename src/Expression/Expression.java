@@ -27,7 +27,7 @@ public class Expression {
      * @param operator String 
      * @return An integer representing the precedence level of the operator
      */
-    private int getPrecedence(String operator) throws Exception {
+    private int precedence(String operator) throws Exception {
     	if (operator.equals("^")) {
     		return 7;
     	} 
@@ -71,5 +71,10 @@ public class Expression {
     public int evaluate() {
         // TODO Evaluate expression here and return result
         return 0;
+    }
+    
+    @Override
+    public String toString() {
+    	return expressionString;
     }
 }
