@@ -1,20 +1,21 @@
 package Expression;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 @SuppressWarnings("serial")
 public class ExpressionList extends ArrayList<Expression>{
     
     /**
-     * 
-     * @return An int array containing the results of each expression
+     * Iterates through all expressions in the list and outputs
+     * the results to the console.
      */
-    public int[] generateResultList() {
-        int[] resultList = new int[size()];
-        
-        // TODO Iterate through expressions in this list and evaluate them.
-        // Add the values to the resultList and return it.
-        
-        return resultList;
+    public void outputResults() {
+        Iterator<Expression> it = iterator();
+        Expression currentExpression;
+        while(it.hasNext()) {
+            currentExpression = it.next();
+            System.out.printf("%s = %s \n", currentExpression.getExpressionString(), currentExpression.evaluate());
+        }
     }
 }
