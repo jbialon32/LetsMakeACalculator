@@ -13,6 +13,10 @@ public class Expression {
         expressionString = "1 + 1";
     }
     
+    /**
+     * Alternative constructor
+     * @param expressionString
+     */
     public Expression(String expressionString) {
         this.expressionString = expressionString;
     }
@@ -20,13 +24,36 @@ public class Expression {
     public String getExpressionString() { return expressionString; }
     
     /**
-     * 
-     * @param operator A char representing the operator to get the precedence level of
+     * Returns the precedence of the passed operator. Must be a string, and not a char because 
+     * of multi-character operators.
+     * @param operator String 
      * @return An integer representing the precedence level of the operator
      */
-    private int precedence(char operator) {
-        // TODO Return the precedence value of the operator 
-        return 0;
+    private int precedence(String operator) throws Exception {
+    	if (operator.equals("^")) {
+    		return 7;
+    	} 
+    	else if (operator.equals("*") || operator.equals("/") || operator.equals("%")) {
+    		return 6;
+    	}
+    	else if (operator.equals("+") || operator.equals("-")) {
+    		return 5;
+    	}
+    	else if (operator.equals(">") || operator.equals(">=") || operator.equals("<") || operator.equals("<=")) {
+    		return 4;
+    	}
+    	else if (operator.equals("==") || operator.equals("!=")) {
+    		return 3;
+    	}
+    	else if (operator.equals("&&")) {
+    		return 2;
+    	}
+    	else if (operator.equals("||")) {
+    		return 1;
+    	}
+    	else {
+    		throw new Exception("Invalid operator \"" + operator + "\" at getPrecedence()");
+    	}
     }
     
     /**
@@ -46,5 +73,10 @@ public class Expression {
     public int evaluate() {
         // TODO Evaluate expression here and return result
         return 0;
+    }
+    
+    @Override
+    public String toString() {
+    	return expressionString;
     }
 }
