@@ -17,6 +17,8 @@ public class Expression {
         this.expressionString = expressionString;
     }
     
+    public String getExpressionString() { return expressionString; }
+    
     /**
      * 
      * @param operator A char representing the operator to get the precedence level of
