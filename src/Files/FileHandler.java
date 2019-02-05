@@ -10,33 +10,28 @@ import Expression.ExpressionList;
 
 /**
  * 
- * File Handler class for saving and loading data to and from files.
+ * File Handler class for loading data from file
  *
  */
 public class FileHandler {
     private String fileInputPath; // Name of input file
-    private String fileOutputPath; // Name of output file
     
     /**
      * Default constructor
      */
     public FileHandler() {
         fileInputPath = "input.text";
-        fileOutputPath = "output.text";
     }
     
     /**
      * 
      * @param inputFileName A String representing the name of the input file
-     * @param outputFileName A String representing the name of the output file
      */
-    public FileHandler(String fileInputPath, String fileOutputPath) {
+    public FileHandler(String fileInputPath) {
         this.fileInputPath = fileInputPath;
-        this.fileOutputPath = fileOutputPath;
     }
     
     public void setFileInputPath(String value) { fileInputPath = value; }
-    public void setFileOutputPath(String value) { fileOutputPath = value; }
     
     /**
      * Loads data from file, filling an array list with Expression objects.
@@ -53,21 +48,5 @@ public class FileHandler {
         // Close streams
         fileInput.close();
         inputScanner.close();
-    }
-    
-    /**
-     * Saves the result list to an output file.
-     * @param An int[] array representing the result list to save.
-     * @throws IOException
-     */
-    public void saveResults(int[] results) throws IOException {
-        FileOutputStream fileOutput = new FileOutputStream(fileOutputPath);
-        PrintWriter printWriter = new PrintWriter(fileOutput);
-        
-        // TODO Save results to file
-        
-        // Close streams
-        fileOutput.close();
-        printWriter.close();
     }
 }
