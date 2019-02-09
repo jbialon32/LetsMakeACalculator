@@ -1,12 +1,10 @@
 package Application;
 
-import java.io.IOException;
-
 import Expression.ExpressionList;
 import Files.FileHandler;
 
 public class Application {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         FileHandler fileHandler = new FileHandler();
         ExpressionList expressionList = new ExpressionList();
         
