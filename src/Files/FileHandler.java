@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Scanner;
 
-import Expression.Expression;
+import Expression.InfixExpression;
 import Expression.ExpressionList;
 
 /**
@@ -44,10 +44,10 @@ public class FileHandler {
         
         // Load data from file and create Expression instances to add to list.
         String expressionString;
-        Expression expression;
+        InfixExpression expression;
         while(inputScanner.hasNext()) {
             expressionString = inputScanner.nextLine();
-            expression = new Expression(expressionString);
+            expression = new InfixExpression(expressionString);
             expressionList.add(expression);
         }
         
