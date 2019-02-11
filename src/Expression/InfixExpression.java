@@ -132,7 +132,7 @@ public class InfixExpression {
         while(!tokenStack.isEmpty()) {
             postfixString += tokenStack.pop() + " ";
         }
-        return new PostfixExpression(postfixString);
+        return new PostfixExpression(postfixString.substring(0, postfixString.length() - 1));
     }
     
     /**

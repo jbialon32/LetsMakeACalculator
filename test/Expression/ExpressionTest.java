@@ -11,26 +11,26 @@ public class ExpressionTest {
     public void infixToPostFixTest() throws Exception {
         InfixExpression tester = new InfixExpression("3 + 3");
         
-        assertEquals("3 3 +", "3 3 +", tester.convertToPostfix());
+        assertEquals("3 3 +", "3 3 +", tester.convertToPostfix().getExpressionString());
         tester.setExpressionString("3 + 4 - 7");
-        assertEquals("3 4 + 7 -", "3 4 + 7 -", tester.convertToPostfix());
+        assertEquals("3 4 + 7 -", "3 4 + 7 -", tester.convertToPostfix().getExpressionString());
         tester.setExpressionString("3 / 1 + 2 - 7 * 4");
-        assertEquals("3 1 / 2 + 7 4 * -", "3 1 / 2 + 7 4 * -", tester.convertToPostfix());
+        assertEquals("3 1 / 2 + 7 4 * -", "3 1 / 2 + 7 4 * -", tester.convertToPostfix().getExpressionString());
         tester.setExpressionString("22*100/23+(14*11)");
-        assertEquals("22 100 * 23 / 14 11 * +", "22 100 * 23 / 14 11 * +", tester.convertToPostfix());
+        assertEquals("22 100 * 23 / 14 11 * +", "22 100 * 23 / 14 11 * +", tester.convertToPostfix().getExpressionString());
         tester.setExpressionString("22 > 1");
-        assertEquals("22 1 >", "22 1 >", tester.convertToPostfix());
+        assertEquals("22 1 >", "22 1 >", tester.convertToPostfix().getExpressionString());
         tester.setExpressionString("22 <= 1");
-        assertEquals("22 1 <=", "22 1 <=", tester.convertToPostfix());
+        assertEquals("22 1 <=", "22 1 <=", tester.convertToPostfix().getExpressionString());
         
         tester.setExpressionString("22*34/100-(65-100) >= 2 && 1 == 3");
-        assertEquals("22 34 * 100 / 65 100 - - 2 >= 1 3 == &&", "22 34 * 100 / 65 100 - - 2 >= 1 3 == &&", tester.convertToPostfix());
+        assertEquals("22 34 * 100 / 65 100 - - 2 >= 1 3 == &&", "22 34 * 100 / 65 100 - - 2 >= 1 3 == &&", tester.convertToPostfix().getExpressionString());
         
         tester.setExpressionString("(3*4/16) + 204 - (16 ^ 5) * (203/4)");
-        assertEquals("3 4 * 16 / 204 + 16 5 ^ 203 4 / * -", "3 4 * 16 / 204 + 16 5 ^ 203 4 / * -", tester.convertToPostfix());
+        assertEquals("3 4 * 16 / 204 + 16 5 ^ 203 4 / * -", "3 4 * 16 / 204 + 16 5 ^ 203 4 / * -", tester.convertToPostfix().getExpressionString());
         
         tester.setExpressionString("30 / ((6*6) - 36)");
-        assertEquals("30 6 6 * 36 - /", "30 6 6 * 36 - /", tester.convertToPostfix());
+        assertEquals("30 6 6 * 36 - /", "30 6 6 * 36 - /", tester.convertToPostfix().getExpressionString());
     }
     
     @Test
