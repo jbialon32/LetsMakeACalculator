@@ -25,6 +25,7 @@ public class InfixExpression {
         this.expressionString = expressionString;
     }
     
+    public String getExpressionString() { return this.expressionString; }
     public void setExpressionString(String expressionString) { this.expressionString = expressionString; }
     
     /**
