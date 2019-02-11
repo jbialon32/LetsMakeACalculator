@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.Stack;
 
 /**
- * Class representing a single expression loaded in from the input file
+ * Class representing a single infix expression loaded in from the input file
  */
 public class InfixExpression {
     private String expressionString; // String representing the initial expression
@@ -19,13 +19,12 @@ public class InfixExpression {
     
     /**
      * Alternative constructor
-     * @param expressionString
+     * @param expressionString an expression in infix form
      */
     public InfixExpression(String expressionString) {
         this.expressionString = expressionString;
     }
     
-    public String getExpressionString() { return expressionString; }
     public void setExpressionString(String expressionString) { this.expressionString = expressionString; }
     
     /**
@@ -57,29 +56,29 @@ public class InfixExpression {
     		return 1;
     	}
     	else {
-    		throw new Exception("Invalid operator \"" + operator + "\" at getPrecedence()");
+    		throw new Exception("Invalid operator \"" + operator + "\" at precedence()");
     	}
     }
     
     /**
      * Converts the infix expression to a post-fix expression
-     * @return A String representing the same expression as a post-fix expression.
+     * @return PostfixExpression 
      * @throws Exception 
      */
-    public String convertToPostfix() throws Exception {
+    public PostfixExpression convertToPostfix() throws Exception {
         // TODO Convert the infix expression to post-fix expression and return it.
-        String[] expressionTokens = expressionString.split("");
+        String[] expressionTokens = expressionString.split(""); // Create an array of all the individual characters in the expression string
         String currentToken;
         String postfixString = "";
-        Stack<String> tokenStack = new Stack<String>();
+        Stack<String> tokenStack = new Stack<String>(); 
         ArrayList<String> singleOperators = new ArrayList<String>(
                 Arrays.asList("^", "*", "/", "%", "+", "-",
                         ">", "<", "=", "!", "&", "|"));
         
-        for(int i = 0; i < expressionTokens.length; i++) {
-            currentToken = expressionTokens[i];
-            if(currentToken.matches("\\d")) { // currentToken is 0-9
-                while((i != expressionTokens.length - 1) && expressionTokens[i + 1].matches("\\d")) { // While the next token in array is also an integer
+        for(int i = 0; i < expressionTokens.length; i++) { // Iterate through the length of the array
+            currentToken = expressionTokens[i]; // Get the current token
+            if(currentToken.matches("\\d")) { // Current token is 0-9 (Regex shorthand for digits)
+                while((i != expressionTokens.length - 1) && expressionTokens[i + 1].matches("\\d")) { // While the next token in array is also a digit
                     currentToken += expressionTokens[i + 1]; // Add to current token and increase iterator over token
                     i++;
                 }
@@ -132,7 +131,7 @@ public class InfixExpression {
         while(!tokenStack.isEmpty()) {
             postfixString += tokenStack.pop() + " ";
         }
-        return postfixString.substring(0, postfixString.length() - 1);
+        return new PostfixExpression(postfixString);
     }
     
     /**
@@ -142,10 +141,13 @@ public class InfixExpression {
      * @throws Exception 
      */
     public int evaluate() throws Exception {
-        PostfixExpression postfix = new PostfixExpression(convertToPostfix());
+        PostfixExpression postfix = this.convertToPostfix();
         return postfix.evaluate();
     }
     
+    /**
+     * Returns the Infix Expression
+     */
     @Override
     public String toString() {
     	return expressionString;

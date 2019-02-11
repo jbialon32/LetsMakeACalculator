@@ -19,7 +19,7 @@ public class ExpressionList extends ArrayList<InfixExpression>{
         while(it.hasNext()) {
             currentExpression = it.next();
             try {
-                System.out.printf("%s = %s\n", currentExpression.getExpressionString(), currentExpression.evaluate());
+                System.out.printf("%s = %s\n", currentExpression, currentExpression.evaluate());
             } catch(Exception e) {
                 System.out.println(e.getMessage());
             }

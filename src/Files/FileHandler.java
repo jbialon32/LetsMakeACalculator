@@ -8,9 +8,7 @@ import Expression.InfixExpression;
 import Expression.ExpressionList;
 
 /**
- * 
  * File Handler class for loading data from file
- *
  */
 public class FileHandler {
     private String inputFileName; // Name of input file
@@ -23,7 +21,7 @@ public class FileHandler {
     }
     
     /**
-     * 
+     * Alternative constructor to specify input file name
      * @param inputFileName A String representing the name of the input file
      */
     public FileHandler(String inputFileName) {
@@ -40,7 +38,6 @@ public class FileHandler {
     public void loadData(ExpressionList expressionList) throws IOException {
         FileInputStream fileInput = new FileInputStream(inputFileName);
         Scanner inputScanner = new Scanner(fileInput);
-        
         
         // Load data from file and create Expression instances to add to list.
         String expressionString;
