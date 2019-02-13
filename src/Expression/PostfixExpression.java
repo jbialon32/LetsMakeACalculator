@@ -15,6 +15,61 @@ class PostfixExpression {
     
     public String getExpressionString() { return expressionString; }
     
+    public Stack<Integer> relationalEval(Stack<Integer> tokenStack, String currentToken, int leftOperand, int rightOperand) {
+        
+        if(currentToken.equals(">")) {
+            if(leftOperand > rightOperand) { tokenStack.push(1); }
+            else { tokenStack.push(0); }
+        } else if(currentToken.equals(">=")) {
+            if(leftOperand >= rightOperand) { tokenStack.push(1); }
+            else { tokenStack.push(0); }
+        } else if(currentToken.equals("<")) {
+            if(leftOperand < rightOperand) { tokenStack.push(1); }
+            else { tokenStack.push(0); }
+        } else if(currentToken.equals("<=")) {
+            if(leftOperand <= rightOperand) { tokenStack.push(1); }
+            else { tokenStack.push(0); }
+        } else if(currentToken.equals("==")) {
+            if(leftOperand == rightOperand) { tokenStack.push(1); }
+            else { tokenStack.push(0); }
+        } else if(currentToken.equals("!=")) {
+            if(leftOperand != rightOperand) { tokenStack.push(1); }
+            else {tokenStack.push(0); }
+        } else if(currentToken.equals("&&")) {
+            if(leftOperand == 1 && rightOperand == 1) { tokenStack.push(1); }
+            else { tokenStack.push(0); }
+        } else if(currentToken.equals("||")) {
+            if(leftOperand == 1 || rightOperand == 1) { tokenStack.push(1); }
+            else { tokenStack.push(0); }
+        }
+        
+    	return tokenStack;
+    }
+    
+    public Stack<Integer> operatorEval(Stack<Integer> tokenStack, String currentToken, int leftOperand, int rightOperand) 
+    		throws Exception {
+    	
+        if(currentToken.equals("+")) {
+            tokenStack.push(leftOperand + rightOperand);
+        } else if(currentToken.equals("-")) {
+            tokenStack.push(leftOperand - rightOperand);
+        } else if(currentToken.equals("*")) {
+            tokenStack.push(leftOperand * rightOperand);
+        } else if(currentToken.equals("/")) {
+            if(rightOperand == 0) {
+                throw new Exception("Divide by zero error.");
+            } else {
+                tokenStack.push(Math.floorDiv(leftOperand, rightOperand));
+            }
+        } else if(currentToken.equals("%")) {
+            tokenStack.push(leftOperand % rightOperand);
+        } else if(currentToken.equals("^")) {
+            tokenStack.push((int)Math.pow((double)leftOperand, (double)rightOperand));
+        }
+        
+    	return tokenStack;
+    }
+    
     public int evaluate() throws Exception {
         String[] expressionTokens = expressionString.split(" ");
         Stack<Integer> tokenStack = new Stack<Integer>();
@@ -26,50 +81,13 @@ class PostfixExpression {
             currentToken = expressionTokens[i];
             if(currentToken.matches("\\d+")) { // token is operand
                 tokenStack.push(Integer.valueOf(currentToken));
-            } else { // token is operator
-                rightOperand = Integer.valueOf(tokenStack.pop());
+            } else { // token is operator               
+            	rightOperand = Integer.valueOf(tokenStack.pop());
                 leftOperand = Integer.valueOf(tokenStack.pop());
-                if(currentToken.equals("+")) {
-                    tokenStack.push(leftOperand + rightOperand);
-                } else if(currentToken.equals("-")) {
-                    tokenStack.push(leftOperand - rightOperand);
-                } else if(currentToken.equals("*")) {
-                    tokenStack.push(leftOperand * rightOperand);
-                } else if(currentToken.equals("/")) {
-                    if(rightOperand == 0) {
-                        throw new Exception("Divide by zero error.");
-                    } else {
-                        tokenStack.push(Math.floorDiv(leftOperand, rightOperand));
-                    }
-                } else if(currentToken.equals("%")) {
-                    tokenStack.push(leftOperand % rightOperand);
-                } else if(currentToken.equals("^")) {
-                    tokenStack.push((int)Math.pow((double)leftOperand, (double)rightOperand));
-                } else if(currentToken.equals(">")) {
-                    if(leftOperand > rightOperand) { tokenStack.push(1); }
-                    else { tokenStack.push(0); }
-                } else if(currentToken.equals(">=")) {
-                    if(leftOperand >= rightOperand) { tokenStack.push(1); }
-                    else { tokenStack.push(0); }
-                } else if(currentToken.equals("<")) {
-                    if(leftOperand < rightOperand) { tokenStack.push(1); }
-                    else { tokenStack.push(0); }
-                } else if(currentToken.equals("<=")) {
-                    if(leftOperand <= rightOperand) { tokenStack.push(1); }
-                    else { tokenStack.push(0); }
-                } else if(currentToken.equals("==")) {
-                    if(leftOperand == rightOperand) { tokenStack.push(1); }
-                    else { tokenStack.push(0); }
-                } else if(currentToken.equals("!=")) {
-                    if(leftOperand != rightOperand) { tokenStack.push(1); }
-                    else {tokenStack.push(0); }
-                } else if(currentToken.equals("&&")) {
-                    if(leftOperand == 1 && rightOperand == 1) { tokenStack.push(1); }
-                    else { tokenStack.push(0); }
-                } else if(currentToken.equals("||")) {
-                    if(leftOperand == 1 || rightOperand == 1) { tokenStack.push(1); }
-                    else { tokenStack.push(0); }
-                }
+                
+                tokenStack = operatorEval(tokenStack, currentToken, leftOperand, rightOperand);
+                tokenStack = relationalEval(tokenStack, currentToken, leftOperand, rightOperand);
+                
             }
         }
         return tokenStack.pop();
