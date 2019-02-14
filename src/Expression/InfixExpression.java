@@ -72,12 +72,15 @@ public class InfixExpression {
         String currentToken;
         String postfixString = "";
         Stack<String> tokenStack = new Stack<String>(); 
+        // Lists for detecting different operators
         ArrayList<String> singleOperators = new ArrayList<String>(
                 Arrays.asList("^", "*", "/", "%", "+", "-",
                         ">", "<", "=", "!", "&", "|"));
+        ArrayList<String> doubleOperators = new ArrayList<String>(
+                Arrays.asList("<=", "==", ">=", "!=", "&&", "||"));
         
         for(int i = 0; i < expressionTokens.length; i++) { // Iterate through the length of the array
-            currentToken = expressionTokens[i]; // Get the current token
+            currentToken = expressionTokens[i];
             if(currentToken.matches("\\d")) { // Current token is 0-9 (Regex shorthand for digits)
                 while((i != expressionTokens.length - 1) && expressionTokens[i + 1].matches("\\d")) { // While the next token in array is also a digit
                     currentToken += expressionTokens[i + 1]; // Add to current token and increase iterator over token
@@ -87,33 +90,9 @@ public class InfixExpression {
             } else if(currentToken.equals("(")) {
                 tokenStack.push(currentToken);
             } else if(singleOperators.contains(currentToken)) { 
-                if(i != expressionTokens.length - 1) { // Ensure not last token
-                    
-                    // TODO Would like to handle this in another method if possible?
-                    if(currentToken.equals("<") && expressionTokens[i + 1].equals("=")) {
-                        currentToken += expressionTokens[i + 1];
-                        i++;
-                    }
-                    if(currentToken.equals(">") && expressionTokens[i + 1].equals("=")) {
-                        currentToken += expressionTokens[i + 1];
-                        i++;
-                    }
-                    if(currentToken.equals("=") && expressionTokens[i + 1].equals("=")) {
-                        currentToken += expressionTokens[i + 1];
-                        i++;
-                    }
-                    if(currentToken.equals("!") && expressionTokens[i + 1].equals("=")) {
-                        currentToken += expressionTokens[i + 1];
-                        i++;
-                    }
-                    if(currentToken.equals("&") && expressionTokens[i + 1].equals("&")) {
-                        currentToken += expressionTokens[i + 1];
-                        i++;
-                    }
-                    if(currentToken.equals("|") && expressionTokens[i + 1].equals("|")) {
-                        currentToken += expressionTokens[i + 1];
-                        i++;
-                    }
+                if(i != expressionTokens.length - 1 && doubleOperators.contains(currentToken + expressionTokens[i + 1])) { // Ensure not last token
+                    currentToken += expressionTokens[i + 1];
+                    i++;
                 }
                 
                 while(!tokenStack.isEmpty() && !tokenStack.peek().equals("(")
@@ -130,19 +109,19 @@ public class InfixExpression {
         }
         
         while(!tokenStack.isEmpty()) {
-            postfixString += tokenStack.pop() + " ";
+            postfixString += tokenStack.pop() + " "; // Get rest of tokens in stack
         }
         return new PostfixExpression(postfixString.substring(0, postfixString.length() - 1));
     }
     
     /**
-     * This should first convert the expressionString to a post-fix expression
-     * via the convertToPostFix method, and then evaluate it, returning the result.
+     * Converts the expressionString to a post-fix expression
+     * via the convertToPostFix method, and then evaluates it, returning the result.
      * @return
      * @throws Exception 
      */
     public int evaluate() throws Exception {
-        PostfixExpression postfix = this.convertToPostfix();
+        PostfixExpression postfix = convertToPostfix();
         return postfix.evaluate();
     }
     
